@@ -1,0 +1,88 @@
+---
+title:       "angularjs自定义表单校验指令"
+subtitle:    ""
+description: ""
+date:        2015-10-03
+author:      "wubin1989"
+image:       ""
+tags:        ["frontend", "angularjs"]
+categories:  ["Tech" ]
+archives:    "2015"
+---
+
+```
+<form name="form" class="css-form" novalidate>
+  <div>
+    Size (integer 0 - 10):
+    <input type="number" ng-model="size" name="size"
+           min="0" max="10" integer />{{size}}<br />
+    <span ng-show="form.size.$error.integer">The value is not a valid integer!</span>
+    <span ng-show="form.size.$error.min || form.size.$error.max">
+      The value must be in range 0 to 10!</span>
+  </div>
+
+  <div>
+    Username:
+    <input type="text" ng-model="name" name="name" username />{{name}}<br />
+    <span ng-show="form.name.$pending.username">Checking if this name is available...</span>
+    <span ng-show="form.name.$error.username">This username is already taken!</span>
+  </div>
+
+</form>
+```
+```
+var app = angular.module('form-example1', []);
+
+var INTEGER_REGEXP = /^\-?\d+$/;
+app.directive('integer', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, ctrl) {
+      ctrl.$validators.integer = function(modelValue, viewValue) {
+        if (ctrl.$isEmpty(modelValue)) {
+          // consider empty models to be valid
+          return true;
+        }
+
+        if (INTEGER_REGEXP.test(viewValue)) {
+          // it is valid
+          return true;
+        }
+
+        // it is invalid
+        return false;
+      };
+    }
+  };});
+
+app.directive('username', function($q, $timeout) {
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, ctrl) {
+      var usernames = ['Jim', 'John', 'Jill', 'Jackie'];
+
+      ctrl.$asyncValidators.username = function(modelValue, viewValue) {
+
+        if (ctrl.$isEmpty(modelValue)) {
+          // consider empty model valid
+          return $q.when();
+        }
+
+        var def = $q.defer();
+
+        $timeout(function() {
+          // Mock a delayed response
+          if (usernames.indexOf(modelValue) === -1) {
+            // The username is available
+            def.resolve();
+          } else {
+            def.reject();
+          }
+
+        }, 2000);
+
+        return def.promise;
+      };
+    }
+  };});
+```

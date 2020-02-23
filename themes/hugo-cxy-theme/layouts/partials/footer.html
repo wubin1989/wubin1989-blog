@@ -1,0 +1,37 @@
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="has-text-centered">
+                <ul>
+                    {{ with .Site.Params.social.wechat }}
+                    <li class="is-inline">
+                        <a target="_blank" href="{{ . | relURL }}">
+                            <span class="icon is-medium">
+                            <span class="fa-stack">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-weixin fa-stack-1x fa-inverse"></i>
+                            </span>
+                            </span>
+                        </a>
+                    </li>
+		    {{ end }}
+                    {{ with .Site.Params.social.github }}
+                    <li class="is-inline">
+                        <a target="_blank" href="{{ . }}">
+                            <span class="icon is-medium">
+                                <span class="fa-stack">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+		    {{ end }}
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; {{ .Site.Title }} {{ now.Year }}
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    {{- partial "head.html" . -}}
+    <body>
+        {{- partial "header.html" . -}}
+        <div class="section">
+            <div class="container">
+                <div class="columns cxy-gap">
+                    {{- partial "side.html" . -}}
+                    <div class="column" id="content">
+                    {{- block "main" . }}{{- end }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{- partial "footer.html" . -}}
+    </body>
+</html>

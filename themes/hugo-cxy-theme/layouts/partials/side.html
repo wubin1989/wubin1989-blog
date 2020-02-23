@@ -1,0 +1,37 @@
+<div class="column is-one-quarter sidebar">
+    <div class="card">
+        <div class="card-content">
+            <div class="">
+                <figure class="image is-128x128 is-inline-block">
+                <img class="" src="{{ .Site.Params.avatar | relURL }}">
+                </figure>
+                <div class="title is-6" style="margin-top: 10px;">
+                    {{ .Site.Params.brief_info }}
+                </div>
+            </div>
+            <div class="subtitle is-6" style="margin-top: 5px;">
+                {{.Site.Params.info}}
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h1 class="title is-5">Tags</h1>
+            <div class="tags">
+            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                <span class="tag"><a href="{{ "tags" | absURL }}/{{ $name | urlize }}">{{ $name }}</a></span>
+            {{ end }}
+            </div>          
+        </div>
+    </div>
+      
+    <div class="card">
+        <div class="card-content">
+            <h1 class="title is-5">Archives</h1>
+            {{ range (where .Site.RegularPages "Section" "post").GroupByDate "2006" }}
+                <a href="{{ "archives" | absURL }}/{{ .Key }}">{{ .Key }}</a> ({{ len .Pages }})<br>
+            {{ end }}
+        </div>
+    </div>
+</div>
